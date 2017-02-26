@@ -1,25 +1,32 @@
 var cnt = 0;
-var was = false;
+var was = false, isPen = true;
+
+function penIsOn() {
+    isPen = true; 
+}
+function eraserIsOn() {
+    isPen = false; 
+}
 
 function goPaint(canvas) {
     console.log("here we go!");
     console.log(canvas);
     var ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "#222222";
-    ctx.lineWith = 2;
+    //ctx.strokeStyle = "#222222";
+    //ctx.lineWith = 2;
 
     var drawing = false;
     var mousePos = { x: 0, y: 0};
     var lastPos = mousePos;
+    
     canvas.addEventListener("mousedown", function(e) {
-        drawing = true;
+        drawing = true; 
         console.log("in MouseDown");
         last = getMousePos(canvas, e);
         console.log(last);
     }, false);
     canvas.addEventListener("mouseup", function(e) {
-        drawing = false;
-        was = 0;
+        drawing = false; was = false;
         console.log("in MouseUp");
     }, false);
     canvas.addEventListener("mousemove", function(e) {
@@ -48,13 +55,16 @@ function goPaint(canvas) {
 
     function renderCanvas() {
         if (drawing) {
-            if (!was) 
-                lastPos = mousePos;
-            cnt++;
-            console.log(cnt);
+            if (!was) lastPos = mousePos;
+            ctx.beginPath();
+            var color = (isPen) ? "#ff0000" : "#ffffff";
+            ctx.strokeStyle = color;
             ctx.moveTo(lastPos.x, lastPos.y);
             ctx.lineTo(mousePos.x, mousePos.y);
+            ctx.lineWidth = 5;
             ctx.stroke();
+            ctx.closePath();
+
             lastPos = mousePos;
         }
     }
