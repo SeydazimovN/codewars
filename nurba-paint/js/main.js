@@ -61,7 +61,8 @@ function goPaint(canvas) {
             ctx.strokeStyle = color;
             ctx.moveTo(lastPos.x, lastPos.y);
             ctx.lineTo(mousePos.x, mousePos.y);
-            ctx.lineWidth = 5;
+            var sz = (isPen) ? 5 : 10;
+            ctx.lineWidth = sz;
             ctx.stroke();
             ctx.closePath();
 
